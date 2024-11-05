@@ -5,6 +5,6 @@ account: benjamin-merkel
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 13118899
-bundleId: 9276351
+bundleId:
 url: https://benjamin-merkel.shinyapps.io/shiny_doi/
 version: 1

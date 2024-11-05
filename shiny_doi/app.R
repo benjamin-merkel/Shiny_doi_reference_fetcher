@@ -25,9 +25,9 @@ get_citation_data <- function(dois, highlighted_authors) {
       if (!is.null(author$family) && !is.null(author$given)) {
         # Check if the author's last name should be highlighted
         if (author$family %in% highlighted_authors) {
-          formatted_authors <- c(formatted_authors, paste0("<b>", author$family, ", ", substr(author$given, 1, 1), "</b>"))
+          formatted_authors <- c(formatted_authors, paste0("<b>", author$family, ", ", paste0(substr(author$given, 1, 1), "."), "</b>"))
         } else {
-          formatted_authors <- c(formatted_authors, paste(author$family, substr(author$given, 1, 1), sep = ", "))
+          formatted_authors <- c(formatted_authors, paste(author$family, paste0(substr(author$given, 1, 1), "."), sep = ", "))
         }
       }
     }
