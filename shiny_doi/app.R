@@ -3,6 +3,7 @@ library(rcrossref)
 library(dplyr)
 library(DT)
 library(shinyjs) 
+library(stringr)
 
 # Function to get citation data and format it
 get_citation_data <- function(dois, highlighted_authors) {
@@ -16,6 +17,15 @@ get_citation_data <- function(dois, highlighted_authors) {
     
     # Extract necessary details
     authors <- cr_data$data$author
+    given <- authors[[1]]$given
+    given <- str_split_fixed(given," ",2)
+    
+    given_initials <- c()
+    for(g in 1:nrow(given)){
+      given_initials <- c(given_initials, gsub("..",".",paste0(substr(given[g,], 1, 1), ".", collapse = ""), fixed = T))
+    }
+    authors[[1]]$given <- given_initials
+    
     
     # Create a vector to hold formatted author names
     formatted_authors <- c()
@@ -25,9 +35,9 @@ get_citation_data <- function(dois, highlighted_authors) {
       if (!is.null(author$family) && !is.null(author$given)) {
         # Check if the author's last name should be highlighted
         if (author$family %in% highlighted_authors) {
-          formatted_authors <- c(formatted_authors, paste0("<b>", author$family, ", ", paste0(substr(author$given, 1, 1), "."), "</b>"))
+          formatted_authors <- c(formatted_authors, paste0("<b>", author$family, ", ", author$given, "</b>"))
         } else {
-          formatted_authors <- c(formatted_authors, paste(author$family, paste0(substr(author$given, 1, 1), "."), sep = ", "))
+          formatted_authors <- c(formatted_authors, paste(author$family, author$given, sep = ", "))
         }
       }
     }
@@ -71,7 +81,7 @@ ui <- fluidPage(
       actionButton("submit", "Get Citation Data", class = "btn-primary btn-lg"),
       p("  "),
       p("by Benjamin Merkel, benjamin.merkel@npolar.no", style = "font-size:11px"),
-      p("last updated 2024-10-25", style = "font-size:11px")
+      p("last updated 2024-11-05", style = "font-size:11px")
     ),
     mainPanel(
       uiOutput("citationOutput")
