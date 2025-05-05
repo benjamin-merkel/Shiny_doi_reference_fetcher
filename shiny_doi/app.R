@@ -55,7 +55,7 @@ get_citation_data <- function(dois, highlighted_authors) {
     doi_link <- paste0("DOI: ", doi)
     
     # Create formatted citation
-    citation <- paste0(authors_string, " (", year, ") ", title, ". ", journal, ", ", volume, ". ", doi_link)
+    citation <- paste0(authors_string, " (", year, "). ", title, ". ", journal, ", ", volume, ". ", doi_link)
     # return(citation)
     return(list(citation = citation, first_author = authors[[1]]$family[1], year = year))
     
@@ -127,7 +127,7 @@ server <- function(input, output) {
   # Render sorted citations
   output$citationOutput <- renderUI({
     if (is.null(citation_data()) || nrow(citation_data()) == 0) {
-      return(h3("Run query")) # No citation data found for the entered DOIs.
+      return(h3("Run query to see results")) # No citation data found for the entered DOIs.
     }
     
     # Create output with formatted citations
